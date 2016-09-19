@@ -9,9 +9,11 @@ import {   AppRegistry,
 } from 'react-native';
 
 import Park from './park';
-import styles from './Style.ios.js'
+import styles from './Style.ios.js';
+var apiKeys = require('./environment.js');
 
 export default class ParkList extends Component {
+
   state = {
     latitude: 40.706659,
     longitude: -74.010127,
@@ -37,7 +39,7 @@ export default class ParkList extends Component {
   }
 
   componentDidUpdate() {
-    fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${this.state.latitude},${this.state.longitude}&radius=1600&type=park&key=AIzaSyCdqkbjcltUsvJOn2aaIjjB0cKMOCZE6Os`)
+    fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${this.state.latitude},${this.state.longitude}&radius=1600&type=park&key=${apiKeys.GOOGLE_PLACES_KEY}`)
     .then((response) => response.json())
     .then((json) => 
       this.setState({

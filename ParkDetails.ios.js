@@ -9,6 +9,7 @@ import {   AppRegistry,
   ScrollView,
   Navigator} from 'react-native';
 import styles from './Style.ios.js'
+var apiKeys = require('./environment.js');
 
 export default class ParkDetails extends Component {
   state = {
@@ -22,7 +23,7 @@ export default class ParkDetails extends Component {
   }
 
   componentDidMount() {
-    fetch(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${this.props.id}&key=AIzaSyCdqkbjcltUsvJOn2aaIjjB0cKMOCZE6Os`)
+    fetch(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${this.props.id}&key=${apiKeys.GOOGLE_PLACES_KEY}`)
     .then((response) => response.json())
     .then((json) => 
       this.setState({
@@ -32,7 +33,7 @@ export default class ParkDetails extends Component {
   }
 
   componentDidUpdate() {
-    fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${this.props.originLat},${this.props.originLong}&destination=${this.state.parkDetails.geometry.location.lat},${this.state.parkDetails.geometry.location.lng}&mode=walking&key=AIzaSyCKQZmLU_zFEJ0aC8Fwz17sAsxJYmwvlzA`)
+    fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${this.props.originLat},${this.props.originLong}&destination=${this.state.parkDetails.geometry.location.lat},${this.state.parkDetails.geometry.location.lng}&mode=walking&key=${apiKeys.GOOGLE_DIRECTIONS_KEY}`)
     .then((response) => response.json())
     .then((json) => {
       this.setState({
