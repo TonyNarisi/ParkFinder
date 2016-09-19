@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import { Text, TouchableHighlight } from 'react-native';
-
+import { Text, TouchableHighlight, View } from 'react-native';
+import styles from './Style.ios.js';
 
 export default class Park extends Component {
   render() {
     return (
-      <TouchableHighlight onPress={this.props.press}>
-        <Text>{this.props.park.name}</Text>
-      </TouchableHighlight>
+      <View style={styles.listView} >
+        <TouchableHighlight onPress={this.props.press}>
+          <Text style={styles.listText}>{this.props.park.name}</Text>
+        </TouchableHighlight>
+      </View>
     )
   }
 }

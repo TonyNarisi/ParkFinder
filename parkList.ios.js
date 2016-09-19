@@ -4,10 +4,12 @@ import {   AppRegistry,
   Text,
   View,
   Navigator,
+  Image,
   TouchableHighlight
 } from 'react-native';
 
 import Park from './park';
+import styles from './Style.ios.js'
 
 export default class ParkList extends Component {
   state = {
@@ -21,20 +23,20 @@ export default class ParkList extends Component {
     this.navigate = this.navigate.bind(this);
   }
 
-  componentDidMount() {
-  //   navigator.geolocation.getCurrentPosition(
-  //     (position) => {
-  //       this.setState({
-  //         latitude: position.coords.latitude,
-  //         longitude: position.coords.longitude
-  //       });
-  //     },
-  //     (error) => alert(error.name),
-  //     {enableHighAccuracy: true}
-  //   );
-  // }
+  componentWillMount() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.setState({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        });
+      },
+      (error) => alert(error),
+      {enableHighAccuracy: true}
+    );
+  }
 
-  // componentDidUpdate() {
+  componentDidUpdate() {
     fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${this.state.latitude},${this.state.longitude}&radius=1600&type=park&key=AIzaSyCdqkbjcltUsvJOn2aaIjjB0cKMOCZE6Os`)
     .then((response) => response.json())
     .then((json) => 
@@ -52,13 +54,21 @@ export default class ParkList extends Component {
 
   render() {
     return (
-      <View>
-        {this.state.nearbyParks.map((park, i)=> {
-          return(
-            <Park key={i} press={() => this.navigate(park)} park={park}/>
-          )
-        })}
-      </View>
+      <Image style={styles.backgroundImage}
+             source={require('./centralpark.png')}>
+        <View style={{alignItems: 'center'}}>
+          <View style={styles.header}>
+            <Text style={{color: 'white'}}>ParkFinder</Text>
+          </View>
+        </View>
+        <View style={styles.parkListHolder}>
+          {this.state.nearbyParks.map((park, i)=> {
+            return(
+              <Park key={i} press={() => this.navigate(park)} park={park}/>
+            )
+          })}
+        </View>
+      </Image>
     )
   }
 }
